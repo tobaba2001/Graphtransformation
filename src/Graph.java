@@ -4,9 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Graph {
     private int V;
@@ -19,7 +17,7 @@ public class Graph {
         this.N = N;
     }
 
-    public Graph generate_random_Graph(int MaxNumOfVertices) {
+    private static Graph generate_random_Graph(int MaxNumOfVertices) {
         Random random = new Random();
         int V = random.nextInt(MaxNumOfVertices) + 1;
         // upper bound for edges in a graph with MaxNumOfVertices vertices:
@@ -33,37 +31,59 @@ public class Graph {
             int a = random.nextInt(V);
             int b = random.nextInt(V);
             if ((N.get(a).contains(b)) || (a == b)) {
-                i--;
+                System.out.println("going back");
                 continue;
             }
             // add to both neighbourhood relations, as we want to have an undirected graph
             N.get(a).add(b);
             N.get(b).add(a);
         }
+        Graph G = new Graph(V, E, N);
         String filename = "Graph-" + System.currentTimeMillis() + ".txt";
         Path path = Paths.get(filename);
         try {
-            Files.writeString(path, ordersToString(), Charset.defaultCharset(),  StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            Files.writeString(path, G.toString(), Charset.defaultCharset(),  StandardOpenOption.CREATE, StandardOpenOption.WRITE);
         } catch (IOException e) {
             System.out.println("Could not save orders.\n");
             e.printStackTrace();
         }
         System.out.println("Orders saved to: " + path);
         // NOTE: N does not give us the edges but rather the relation of Neighbourhood between vertices.
-        return new Graph(V, E, N);
+        return G;
     }
 
     @Override
     public String toString() {
         String finalString;
         StringBuilder builder = new StringBuilder();
-        builder.append("{");
+        List<Set<Integer>> edges = new ArrayList<>();
+        builder.append("[");
         for(int i = 0; i < V; i++){
-            builder.append(i+1);
-            builder.append(", ");
+            builder.append(i);
+            if (i != V-1)
+                builder.append(", ");
+            List<Integer> IndexOfi = N.get(i);
+            for (Integer integer : IndexOfi) {
+                Set<Integer> tmp = new HashSet<>();
+                tmp.add(i);
+                tmp.add(integer);
+                if (!edges.contains(tmp))
+                    edges.add(tmp);
+            }
         }
-        builder.append("}\n{");
-
+        builder.append("]\n[");
+        for (int i = 0; i < edges.size(); i++){
+            builder.append(edges.get(i).toString());
+            if(i != edges.size()-1)
+                builder.append(", ");
+        }
+        builder.append("]");
+        finalString = builder.toString();
         return finalString;
+    }
+
+    public static void main(String[] args) {
+        Graph G = generate_random_Graph(100);
+        System.out.println(G.toString());
     }
 }
