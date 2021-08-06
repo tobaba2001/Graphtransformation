@@ -21,9 +21,11 @@ public class Graph {
     public static Graph generate_random_Graph(int MaxNumOfVertices, boolean generateFile) {
         Random random = new Random();
         int V = random.nextInt(MaxNumOfVertices) + 1;
+        if (V <= 2)
+            V = 3;
         // upper bound for edges in a graph with MaxNumOfVertices vertices:
         //      MaxNumOfVertices * ((MaxNumOfVertices - 1) / 2)
-        int E = random.nextInt(V * (V - 1)/2);
+        int E = random.nextInt( V * (V - 1)/2);
         List<List<Integer>> N = new ArrayList<>(V);
         System.out.println("generating " + V + " vertices...");
         for (int i = 0; i < V; i++)
