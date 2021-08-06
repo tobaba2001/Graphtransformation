@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static java.time.Duration.ofSeconds;
-import static java.time.Duration.ofMinutes;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
