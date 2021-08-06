@@ -25,7 +25,7 @@ public class Graph {
             V = 3;
         // upper bound for edges in a graph with MaxNumOfVertices vertices:
         //      MaxNumOfVertices * ((MaxNumOfVertices - 1) / 2)
-        int E = random.nextInt( V * (V - 1)/2);
+        int E = random.nextInt(V * (V - 1) / 2);
         List<List<Integer>> N = new ArrayList<>(V);
         System.out.println("generating " + V + " vertices...");
         for (int i = 0; i < V; i++)
@@ -43,7 +43,7 @@ public class Graph {
             System.out.println("Adding edge {" + a + ", " + b + "}");
             N.get(a).add(b);
             // we can probably still ignore that this would give us a directed graph as we refuse to count the edges twice anyway
-             N.get(b).add(a);
+            N.get(b).add(a);
         }
         Graph G = new Graph(V, E, N);
         if (generateFile) {
@@ -60,6 +60,7 @@ public class Graph {
         // NOTE: N does not give us the edges but rather the relation of Neighbourhood between vertices.
         return G;
     }
+
     public static Graph generate_random_Graph(int i) {
         return generate_random_Graph(i, false);
     }
@@ -70,9 +71,9 @@ public class Graph {
         StringBuilder builder = new StringBuilder();
         List<Set<Integer>> edges = new ArrayList<>();
         builder.append("[");
-        for(int i = 0; i < V; i++){
+        for (int i = 0; i < V; i++) {
             builder.append(i);
-            if (i != V-1)
+            if (i != V - 1)
                 builder.append(", ");
             List<Integer> IndexOfi = N.get(i);
             for (Integer integer : IndexOfi) {
@@ -84,9 +85,9 @@ public class Graph {
             }
         }
         builder.append("]\n[");
-        for (int i = 0; i < edges.size(); i++){
+        for (int i = 0; i < edges.size(); i++) {
             builder.append(edges.get(i).toString());
-            if(i != edges.size()-1)
+            if (i != edges.size() - 1)
                 builder.append(", ");
         }
         builder.append("]");

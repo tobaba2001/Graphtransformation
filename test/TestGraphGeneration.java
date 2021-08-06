@@ -16,15 +16,16 @@ class TestGraphGeneration {
         //graph = assertTimeoutPreemptively(ofMinutes(1), () -> Graph.generate_random_Graph(1000, true));
         graph = Graph.generate_random_Graph(1000, true);
     }
+
     @Test
-    void TestNumberOfEdges(){
+    void TestNumberOfEdges() {
         List<Set<Integer>> edges = new ArrayList<>();
-        for (int i = 0; i < graph.V; i++){
-            for(Integer j : graph.N.get(i)) {
+        for (int i = 0; i < graph.V; i++) {
+            for (Integer j : graph.N.get(i)) {
                 Set<Integer> tmp = new HashSet<>();
                 tmp.add(i);
                 tmp.add(j);
-                if (!edges.contains(tmp)){
+                if (!edges.contains(tmp)) {
                     edges.add(tmp);
                 }
             }
