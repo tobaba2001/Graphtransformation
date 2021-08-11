@@ -1,3 +1,5 @@
+import graphing.Graph;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,7 @@ class TestGraphGeneration {
     @BeforeEach
     void init() {
         //graph = assertTimeoutPreemptively(ofMinutes(1), () -> Graph.generate_random_Graph(1000, true));
-        graph = Graph.generate_random_Graph(1000, true);
+        graph = Graph.generate_random_Graph(10);
     }
 
     @Test
