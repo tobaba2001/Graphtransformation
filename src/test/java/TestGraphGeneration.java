@@ -37,7 +37,7 @@ class TestGraphGeneration {
     @Test
     @Tag("slow")
     void TestConnected() {
-        graph = Graph.generate_random_Graph(10, "connected");
+        graph = Graph.generate_random_Graph(20, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
         for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());
@@ -50,9 +50,9 @@ class TestGraphGeneration {
         boolean isSatisfied = false;
         for (List<Integer> A : SubsetsOfA) {
             isSatisfied = false;
-            System.out.println("A: " + A);
+            // System.out.println("A: " + A);
             for (List<Integer> B : SubsetsOfA) {
-                System.out.println("B: " + B);
+                // System.out.println("B: " + B);
                 Set<Integer> Atmp = new HashSet<>(A);
                 Set<Integer> Btmp = new HashSet<>(B);
                 if (Atmp.containsAll(Btmp) || Btmp.containsAll(Atmp)) {
