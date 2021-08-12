@@ -37,7 +37,7 @@ class TestGraphGeneration {
     @Test
     @Tag("slow")
     void TestConnected() {
-        graph = Graph.generate_random_Graph(20, "connected");
+        graph = Graph.generate_random_Graph(10, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
         for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());

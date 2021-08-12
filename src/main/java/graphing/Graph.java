@@ -81,6 +81,8 @@ public class Graph {
             case "connected":
                 // in a connected graph, the minimal number of Edges is n-1 (Path)
                 E = random.nextInt(((V * (V - 1) / 2) - (V - 1))) + (V - 1);
+                System.out.println("generating " + V + " vertices...");
+                System.out.println("generating " + E + " edges...");
                 int EdgeCounter = E;
                 List<List<Integer>> ConnectedComponents = new ArrayList<>(V);
                 for (int i = 0; i < V; i++) {
@@ -129,7 +131,7 @@ public class Graph {
                         continue;
                     }
                     // add to both neighbourhood relations, as we want to have an undirected graph
-                    System.out.println("Adding edge {" + a + ", " + b + "}");
+                    // System.out.println("Adding edge {" + a + ", " + b + "}");
                     N.get(a).add(b);
                     N.get(b).add(a);
                 }
