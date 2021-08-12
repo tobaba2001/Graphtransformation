@@ -37,7 +37,7 @@ class TestGraphGeneration {
     @Test
     @Tag("slow")
     void TestConnected() {
-        graph = Graph.generate_random_Graph(5, "connected");
+        graph = Graph.generate_random_Graph(10, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
         for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());
@@ -46,7 +46,7 @@ class TestGraphGeneration {
                     SubsetsOfA.get(j).add(i);
         }
         SubsetsOfA.remove(0);
-        assertEquals(SubsetsOfA.size(), Math.pow(2, graph.V) - 1);
+        //assertEquals(SubsetsOfA.size(), Math.pow(2, graph.V) - 1);
         boolean isSatisfied = false;
         for (List<Integer> A : SubsetsOfA) {
             isSatisfied = false;

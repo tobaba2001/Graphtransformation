@@ -80,7 +80,7 @@ public class Graph {
         switch (Params) {
             case "connected":
                 // in a connected graph, the minimal number of Edges is n-1 (Path)
-                E = random.nextInt((V * (V - 1) / 2) - (V - 1)) + (V - 1);
+                E = random.nextInt(((V * (V - 1) / 2) - (V - 1))) + (V - 1);
                 int EdgeCounter = E;
                 List<List<Integer>> ConnectedComponents = new ArrayList<>(V);
                 for (int i = 0; i < V; i++) {
@@ -91,7 +91,7 @@ public class Graph {
                 List<Integer> MainComponent = ConnectedComponents.get(0);
                 while (MainComponent.size() != V) {
                     int VertexToBeConnected = MainComponent.get(random.nextInt(MainComponent.size()));
-                    int index = random.nextInt(ConnectedComponents.size() - 1) + 1;
+                    int index = random.nextInt((ConnectedComponents.size() - 1)) + 1;
                     List<Integer> RandomList = ConnectedComponents.get(index);
                     MainComponent.add(RandomList.get(0));
                     N.get(RandomList.get(0)).add(VertexToBeConnected);
@@ -113,6 +113,7 @@ public class Graph {
                         N.get(b).add(a);
                     }
                 }
+                break;
             default:
                 E = random.nextInt(V * (V - 1) / 2);
                 System.out.println("generating " + V + " vertices...");
@@ -132,6 +133,7 @@ public class Graph {
                     N.get(a).add(b);
                     N.get(b).add(a);
                 }
+                break;
         }
         Graph G = new Graph(V, E, N);
         if (generateFile) {
@@ -172,6 +174,6 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        Graph G = generate_random_Graph(10, true, "connected");
+        Graph G = generate_random_Graph(100, true, "connected");
     }
 }
