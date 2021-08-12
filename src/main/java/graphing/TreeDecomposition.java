@@ -10,7 +10,7 @@ public class TreeDecomposition {
      * for every edge in the graph there has to be a vertex t so that the edge is a subset of ß(t) [the bag of that vertex]
      */
     public static void main(String[] args) {
-        Graph G = Graph.generate_random_Graph(100);
+        Graph G = Graph.generate_random_Graph(100, "");
         List<List<Integer>> bags = new ArrayList<>();
     }
 }
