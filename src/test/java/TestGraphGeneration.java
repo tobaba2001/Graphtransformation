@@ -39,31 +39,37 @@ class TestGraphGeneration {
     void TestConnected() {
         graph = Graph.generate_random_Graph(5, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
-        for (int j = 0; j < (1<<graph.V); j++){
+        for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());
             for (int i = 0; i < graph.V; i++)
                 if ((j & (1 << i)) > 0)
                     SubsetsOfA.get(j).add(i);
         }
-        for(List<Integer> A : SubsetsOfA){
-            for(List<Integer> B : SubsetsOfA){
-                if(A == B)
+        SubsetsOfA.remove(0);
+        assertEquals(SubsetsOfA.size(), Math.pow(2, graph.V) - 1);
+        boolean isSatisfied = false;
+        for (List<Integer> A : SubsetsOfA) {
+            isSatisfied = false;
+            System.out.println("A: " + A);
+            for (List<Integer> B : SubsetsOfA) {
+                System.out.println("B: " + B);
+                Set<Integer> Atmp = new HashSet<>(A);
+                Set<Integer> Btmp = new HashSet<>(B);
+                if (Atmp.containsAll(Btmp) || Btmp.containsAll(Atmp)) {
+                    isSatisfied = true;
                     continue;
-                for(Integer x : A){
-                    assertFalse(B.contains(x), "Testing whether");
                 }
-                boolean isSatisfied = false;
-                for (Integer x : A){
-                    for(Integer y: B){
-                        if (graph.N.get(x).contains(y) && graph.N.get(y).contains(x)) {
+                for (Integer x : A) {
+                    for (Integer y : B) {
+                        if (graph.N.get(x).contains(y)) {
                             isSatisfied = true;
                             break;
                         }
                     }
                 }
-                assertTrue(isSatisfied,
-                        "Testing whether the condition is satisfied, that both components have an edge");
             }
+            assertTrue(isSatisfied,
+                    "Testing whether the condition is satisfied, that both components have an edge");
         }
     }
 }
