@@ -37,7 +37,7 @@ class TestGraphGeneration {
     @Test
     @Tag("slow")
     void TestConnected() {
-        graph = Graph.generate_random_Graph(10, "connected");
+        graph = Graph.generate_random_Graph(100, true, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
         for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());
@@ -47,7 +47,7 @@ class TestGraphGeneration {
         }
         SubsetsOfA.remove(0);
         //assertEquals(SubsetsOfA.size(), Math.pow(2, graph.V) - 1);
-        boolean isSatisfied = false;
+        /*boolean isSatisfied = false;
         for (List<Integer> A : SubsetsOfA) {
             isSatisfied = false;
             // System.out.println("A: " + A);
@@ -70,6 +70,32 @@ class TestGraphGeneration {
             }
             assertTrue(isSatisfied,
                     "Testing whether the condition is satisfied, that both components have an edge");
+        }*/
+
+        for (int i = 0; i < graph.V; i++) {
+            for (int j = 0; j < graph.V; j++) {
+                if (i == j)
+                    continue;
+                for (List<Integer> X : SubsetsOfA) {
+                    System.out.println("Looking for closure regarding E in Subset X: " + X);
+                    boolean isclosure = X.size() == 1;
+                    if(isclosure)
+                        continue;
+                    for (int k = 0; k < X.size(); k++) {
+                        for (int l = 0; l < X.size(); l++) {
+                            if (k == l)
+                                continue;
+                            for (int m = 0; m < graph.N.get(k).size(); m++) {
+                                if (graph.N.get(k).get(m) == l) {
+                                    isclosure = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    assertTrue(isclosure);
+                }
+            }
         }
     }
 }
