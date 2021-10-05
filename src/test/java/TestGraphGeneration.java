@@ -37,7 +37,7 @@ class TestGraphGeneration {
     @Test
     @Tag("slow")
     void TestConnected() {
-        graph = Graph.generate_random_Graph(100, true, "connected");
+        graph = Graph.generate_random_Graph(8, true, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
         for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());
@@ -46,31 +46,6 @@ class TestGraphGeneration {
                     SubsetsOfA.get(j).add(i);
         }
         SubsetsOfA.remove(0);
-        //assertEquals(SubsetsOfA.size(), Math.pow(2, graph.V) - 1);
-        /*boolean isSatisfied = false;
-        for (List<Integer> A : SubsetsOfA) {
-            isSatisfied = false;
-            // System.out.println("A: " + A);
-            for (List<Integer> B : SubsetsOfA) {
-                // System.out.println("B: " + B);
-                Set<Integer> Atmp = new HashSet<>(A);
-                Set<Integer> Btmp = new HashSet<>(B);
-                if (Atmp.containsAll(Btmp) || Btmp.containsAll(Atmp)) {
-                    isSatisfied = true;
-                    continue;
-                }
-                for (Integer x : A) {
-                    for (Integer y : B) {
-                        if (graph.N.get(x).contains(y)) {
-                            isSatisfied = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            assertTrue(isSatisfied,
-                    "Testing whether the condition is satisfied, that both components have an edge");
-        }*/
 
         for (int i = 0; i < graph.V; i++) {
             for (int j = 0; j < graph.V; j++) {
@@ -93,9 +68,51 @@ class TestGraphGeneration {
                             }
                         }
                     }
+                    // Dies würde nur die Prämisse der Implikation prüfen.
                     assertTrue(isclosure);
                 }
             }
         }
+    }
+    @Test
+    @Tag("slow")
+    void TestConnected2() {
+        graph = Graph.generate_random_Graph(8, true, "");
+        List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
+        boolean cl = false;
+        boolean component= false;
+        int clcounter = 0;
+
+        for (int j = 0; j < (1 << graph.V); j++) {
+            SubsetsOfA.add(new ArrayList<>());
+            for (int i = 0; i < graph.V; i++)
+                if ((j & (1 << i)) > 0)
+                    SubsetsOfA.get(j).add(i);
+        }
+        SubsetsOfA.remove(0);
+        for(int u = 0; u < graph.V; u++) {
+            for(int v = 0; v < graph.V; v++) {
+                for (List<Integer> X : SubsetsOfA) {
+                    System.out.println("Looking for closure regarding E in Subset X: " + X);
+                    for (int y = 0; y < graph.V; y++) {
+                        for (int z = 0; z < graph.V; z++) {
+                            if (!(X.contains(u) && graph.N.get(y).contains(z)) || X.contains(z)) {
+                                clcounter++;
+                            }
+                        }
+                    }
+                    if(clcounter == graph.V)
+                        cl = true;
+                    if((!(X.contains(u) && cl)) || X.contains(v))
+                        component = true;
+                    else
+                        System.out.println("here component");
+                    assertTrue(component);
+                    cl = false;
+                    component = false;
+                }
+            }
+        }
+
     }
 }
