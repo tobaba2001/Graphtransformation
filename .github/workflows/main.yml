@@ -35,5 +35,5 @@ jobs:
           distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      - name: Testing number of Edges according to random number generated at the beginning
+      - name: Testing the Graphs for certain attributes e.g. connected, complete...
         run: ./gradlew test
