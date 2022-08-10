@@ -17,7 +17,7 @@ class TestGraphGeneration {
     @Test
     @Tag("fast")
     void TestNumberOfEdges() {
-        graph = Graph.generate_random_Graph(100, "");
+        graph = Graph.generate_random_Graph(1000,true, "");
         List<Set<Integer>> edges = new ArrayList<>();
         for (int i = 0; i < graph.V; i++) {
             for (Integer j : graph.N.get(i)) {
@@ -113,6 +113,5 @@ class TestGraphGeneration {
                 }
             }
         }
-
     }
 }

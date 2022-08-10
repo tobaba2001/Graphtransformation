@@ -32,39 +32,43 @@ public class Graph {
         System.out.println("Graph saved to: " + path);
     }
 
-    /* public static Graph generate_random_Graph(int MaxNumOfVertices, boolean generateFile) {
-        Random random = new Random();
-        int V = random.nextInt(MaxNumOfVertices) + 1;
-        if (V <= 2)
-            V = 3;
-        // upper bound for edges in a graph with MaxNumOfVertices vertices:
-        //      MaxNumOfVertices * ((MaxNumOfVertices - 1) / 2)
-        int E = random.nextInt(V * (V - 1) / 2);
-        List<List<Integer>> N = new ArrayList<>(V);
-        System.out.println("generating " + V + " vertices...");
-        for (int i = 0; i < V; i++)
-            N.add(new ArrayList<>());
-        System.out.println("generating " + E + " edges...");
-        for (int i = 0; i < E; i++) {
-            int a = random.nextInt(V);
-            int b = random.nextInt(V);
-            if ((N.get(a).contains(b)) || (a == b)) {
-                // System.out.println("going back because the edge {" + a + ", " + b + "} already exists");
-                i--;
-                continue;
+    public static void generate_dotnotation(Graph G) throws IOException {
+        String dotString;
+        StringBuilder builder = new StringBuilder();
+        List<Set<Integer>> edges = new ArrayList<>();
+        builder.append("strict graph {\n");
+
+        for (int i = 0; i < G.V; i++) {
+            List<Integer> IndexOfi = G.N.get(i);
+            for (Integer integer : IndexOfi) {
+                Set<Integer> tmp = new HashSet<>();
+                tmp.add(i);
+                tmp.add(integer);
+                if (!edges.contains(tmp))
+                    edges.add(tmp);
             }
-            // add to both neighbourhood relations, as we want to have an undirected graph
-            System.out.println("Adding edge {" + a + ", " + b + "}");
-            N.get(a).add(b);
-            N.get(b).add(a);
         }
-        Graph G = new Graph(V, E, N);
-        if (generateFile) {
-            generate_file(G);
+        for (Set<Integer> edge : edges) {
+            Object[] Arr_i = edge.toArray();
+            builder.append(Arr_i[0]);
+            builder.append(" -- ");
+            builder.append(Arr_i[1]);
+            builder.append("\n");
         }
-        // NOTE: N does not give us the edges but rather the relation of Neighbourhood between vertices.
-        return G;
-    } */
+        builder.append("}");
+        String filename = "generated_graphs/" + "dotgraph-" + System.currentTimeMillis() + ".dot";
+        Path path = Paths.get(filename);
+        try {
+            Files.writeString(path, builder.toString(), Charset.defaultCharset(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        } catch (IOException e) {
+            System.out.println("Could not save graph.\n");
+            e.printStackTrace();
+        }
+        System.out.println("dotGraph saved to: " + path);
+        Runtime rt = Runtime.getRuntime();
+        Process pr = rt.exec("dot -Tsvg generated_graphs/" + filename + " -o svgmodules/" + filename + ".svg");
+    }
+
 
     public static Graph generate_random_Graph(int MaxNumOfVertices, String Params) {
         return generate_random_Graph(MaxNumOfVertices, false, Params);
@@ -140,6 +144,11 @@ public class Graph {
         Graph G = new Graph(V, E, N);
         if (generateFile) {
             generate_file(G);
+            try {
+                generate_dotnotation(G);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         // NOTE: N does not give us the edges but rather the relation of Neighbourhood between vertices.
         return G;
