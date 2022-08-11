@@ -40,7 +40,7 @@ class TestGraphGeneration {
         comp(u,v)  = ∀X(X(u) ∧ closure(X)) → X(v)
         closure(C) = ∀y∀z(C(y) ∧ E(y,z)) → C(z)
          */
-        graph = Graph.generate_random_Graph(8, false, "");
+        graph = Graph.generate_random_Graph(8, false, "connected");
         List<List<Integer>> SubsetsOfA = new ArrayList<>(graph.V);
         for (int j = 0; j < (1 << graph.V); j++) {
             SubsetsOfA.add(new ArrayList<>());
